@@ -3,6 +3,7 @@ const { bookModel } = require("../models/book.model");
 const { checkUserRole } = require("../middlewares/checkUserRole");
 const validate = require("../middlewares/validator");
 const bookValidationRules = require("../validation/Book/bookValidationRules");
+const upload = require("../middlewares/upload");
 const bookRouter = express.Router();
 
 /**
@@ -93,7 +94,7 @@ bookRouter.get(
  *      requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              type: object
  *              properties:
@@ -111,7 +112,8 @@ bookRouter.get(
  *                  description: Ratings of the book
  *                coverPage:
  *                  type: string
- *                  description: URL of the cover page image
+ *                  format: binary
+ *                  description:  cover page image file
  *                year:
  *                  type: integer
  *                  description: Publication year of the book
@@ -166,15 +168,17 @@ bookRouter.get(
 bookRouter.post(
   "/add",
   checkUserRole(["Admin", "Author"]),
+  upload.single("coverPage"),
   validate(bookValidationRules),
   async (req, res) => {
-    const { title, year, genre, language, ratings, coverPage } = req.body;
-
+    console.log(req.body);
+    const { title, year, genre, language, ratings } = req.body;
     try {
+      const coverPageUrl = req.file.path;
       let newbook = new bookModel({
         title,
         creator: req.user.id,
-        coverPage,
+        coverPage: coverPageUrl,
         language,
         ratings,
         genre,

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/user.model");
 
+//! middleware to check the user roles
 const checkUserRole = (allowedRoles) => {
   return (req, res, next) => {
     let token = req.headers.authorization;

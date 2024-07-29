@@ -1,4 +1,4 @@
-// src/middleware/validationMiddleware.js
+//! Middleware to validate the requests
 const { validationResult } = require("express-validator");
 
 const validate = (validationRules) => {

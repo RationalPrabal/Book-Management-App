@@ -12,6 +12,7 @@ const { requestLogger } = require("./middlewares/requestLogs");
 const { connection } = require("./configs/Database");
 const server = http.createServer(app);
 
+//! options to configure swagger
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -33,11 +34,14 @@ app.use(
   })
 );
 
-// Use the requestLogger middleware
+//! Use the requestLogger middleware
 app.use(requestLogger);
+
+//! routes
 app.use("/auth", authRouter);
 app.use("/book", bookRouter);
 
+//! database connection and running the server
 server.listen(PORT, async () => {
   try {
     await connection;
