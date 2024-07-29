@@ -13,6 +13,7 @@ const bookRouter = express.Router();
  *   description: All the API routes related to the book.
  */
 
+//! swagger doc for get books routes
 /**
  * @swagger
  * /books:
@@ -69,6 +70,7 @@ const bookRouter = express.Router();
  *                   example: "Something went wrong"
  */
 
+//! get book route
 bookRouter.get(
   "/",
   checkUserRole(["Admin", "Author", "Reader"]),
@@ -85,6 +87,7 @@ bookRouter.get(
   }
 );
 
+//! swagger doc for adding books
 /**
  *  @swagger
  *  /books/add:
@@ -165,13 +168,13 @@ bookRouter.get(
  *                    example: "Something went wrong"
  */
 
+//! add books route
 bookRouter.post(
   "/add",
   checkUserRole(["Admin", "Author"]),
   upload.single("coverPage"),
   validate(bookValidationRules),
   async (req, res) => {
-    console.log(req.body);
     const { title, year, genre, language, ratings } = req.body;
     try {
       const coverPageUrl = req.file.path;
@@ -190,12 +193,12 @@ bookRouter.post(
         book: newbook,
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).send({ message: "Something went wrong" });
     }
   }
 );
 
+//! swagger doc for editing the book
 /**
  * @swagger
  * /books/edit/{bookId}:
@@ -285,6 +288,7 @@ bookRouter.post(
  *                   example: "Something went wrong"
  */
 
+//! editing book route
 bookRouter.patch(
   "/edit/:bookId",
   checkUserRole(["Admin", "Author"]),
@@ -310,6 +314,7 @@ bookRouter.patch(
   }
 );
 
+//! swagger doc for deleting the book
 /**
  * @swagger
  * /books/delete/{bookId}:
@@ -356,6 +361,7 @@ bookRouter.patch(
  *                   example: "Something went wrong"
  */
 
+//! delete book route
 bookRouter.delete(
   "/delete/:bookId",
   checkUserRole(["Admin"]),

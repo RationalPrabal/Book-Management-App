@@ -5,14 +5,13 @@ const { userModel } = require("../models/user.model");
 const checkUserRole = (allowedRoles) => {
   return (req, res, next) => {
     let token = req.headers.authorization;
-    console.log(token);
+
     if (!token) {
       return res.status(401).send({ message: "Unauthorized" });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
-        console.log(token);
         console.log(err);
         return res.status(401).send({ message: "Unauthorized" });
       }

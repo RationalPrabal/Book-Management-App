@@ -18,6 +18,7 @@ const validate = require("../middlewares/validator");
  *    description: All the API routes related to authentication.
  */
 
+//! Swagger doc for register route
 /**
  * @swagger
  * /auth/register:
@@ -84,6 +85,7 @@ const validate = require("../middlewares/validator");
  *                   example: "Something went wrong"
  */
 
+//! register route
 authRouter.post(
   "/register",
   validate(signupValidationRules),
@@ -125,6 +127,7 @@ authRouter.post(
   }
 );
 
+//! swagger doc for login route
 /**
  * @swagger
  * /auth/login:
@@ -183,6 +186,7 @@ authRouter.post(
  *                   example: "Something went wrong"
  */
 
+//! login route
 authRouter.post("/login", validate(loginValidationRules), async (req, res) => {
   const { email, password } = req.body;
   try {
